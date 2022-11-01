@@ -1,22 +1,32 @@
-import React from 'react';
+import React,{ useState } from 'react';
 
 const today = new Date();
-
 const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 
-
-
+const animalsData = [
+    {id: 1, name:'Jackie', species:'Dog', birth:date},
+    {id: 2, name:'Pedja', species:'Monkey', birth:date},
+    {id: 3, name:'Jack', species:'Aligator', birth:date},
+    {id: 4, name:'Millie', species:'Lion', birth:date},
+    {id: 5, name:'Jackie', species:'Bird', birth:date},
+    {id: 6, name:'Leonardo', species:'Turtle', birth:""},
+];
 
 const AnimalList = () => {
-    const animals = [
-        {name:'Jackie', species:'Dog', birth:date},
-        {name:'Pedja', species:'Monkey', birth:date},
-        {name:'Jack', species:'Aligator', birth:date},
-        {name:'Millie', species:'Lion', birth:date},
-        {name:'Jackie', species:'Bird', birth:date},
-        {name:'Leonardo', species:'Turtle', birth:""},
-    ];
+    const [animals, setAnimals] = useState(animalsData);
 
+    const handleRemoveAnimal = (index) => {
+        setAnimals([...animals.slice(-1, index),
+                     ...animals.slice(index + 1)]);
+    };
+
+    const handleMoveAnimalToTop = (index) => {
+        setAnimals(
+            [animals[index],
+            ...animals.slice(0, index),
+            ...animals.slice(index + 1)]);
+    }
+    
     return (
         <div>
             <h1>Animal list in the zoo:</h1>
@@ -26,18 +36,13 @@ const AnimalList = () => {
                     <th>species: </th>
                     <th>birth: </th>
                 </tr>
-            {animals.map((animal) => 
-                <tr>
-                        <th key="animal.id">{animal.name}</th>
-                        <th key="animal.id">{animal.species}</th>
-                        {animal.birth ? 
-                            <>
-                                <th key="animal.id">{animal.birth}</th>
-                            </> :
-                            <>
-                                <th>Unknown</th>
-                            </>
-                        }       
+            {animals.map((animal, index) => 
+                <tr key={animal.id}>
+                        <th>{animal.name}</th>
+                        <th>{animal.species}</th>
+                        <th>{animal.birth ? animal.birth : 'Unknown'}</th>
+                        <td><button onClick={() => handleRemoveAnimal(index)}>Remove</button></td>       
+                        <td><button onClick={() => handleMoveAnimalToTop(index)}>Move to top</button></td>       
                 </tr>
                     )}
             </table>
