@@ -14,6 +14,7 @@ const AnimalList = () => {
         {name:'Jack', species:'Aligator', birth:date},
         {name:'Millie', species:'Lion', birth:date},
         {name:'Jackie', species:'Bird', birth:date},
+        {name:'Leonardo', species:'Turtle', birth:""},
     ];
 
     return (
@@ -29,8 +30,14 @@ const AnimalList = () => {
                 <tr>
                         <th key="animal.id">{animal.name}</th>
                         <th key="animal.id">{animal.species}</th>
-                        <th key="animal.id">{animal.birth}</th>
-
+                        {animal.birth ? 
+                            <>
+                                <th key="animal.id">{animal.birth}</th>
+                            </> :
+                            <>
+                                <th>Unknown</th>
+                            </>
+                        }       
                 </tr>
                     )}
             </table>
